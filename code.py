@@ -36,14 +36,14 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     else:
         st.info("😐 Mixed or weak signals.")
         if percentage < 1:
-            if implied_apy > underlying_apy:
+            if ((implied_apy > underlying_apy) and (yt_now < fair_yt)) or ((implied_apy > underlying_apy) and (yt_now > fair_yt)):
                 st.warning("🔸 Implied APY is unattractive, but YT price is fair.")
-            elif implied_apy < underlying_apy:
+            elif ((implied_apy < underlying_apy) and (yt_now > fair_yt)) or ((implied_apy < underlying_apy) and (yt_now < fair_yt)):
                 st.success("🔸 Implied APY is attractive, but YT price is fair.")
         if percentage_apy < 1:
-            if implied_apy > underlying_apy:
+            if ((implied_apy > underlying_apy) and (yt_now < fair_yt)) or ((implied_apy > underlying_apy) and (yt_now > fair_yt)):
                 st.warning("🔸 Implied APY is nearly equal, but YT price is cheap.")
-            elif implied_apy < underlying_apy:
+            elif ((implied_apy < underlying_apy) and (yt_now > fair_yt)) or ((implied_apy < underlying_apy) and (yt_now < fair_yt)):
                 st.error("🔸 Implied APY is nearly equal, but YT price is expensive.")
 
     st.divider()
