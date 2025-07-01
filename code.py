@@ -37,14 +37,14 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.info("😐 Mixed or weak signals.")
         if percentage < 1:
             if implied_apy > underlying_apy:
-                st.warning("🔸 Implied APY is unattractive, but YT price is fair.")
+                st.info("🔸 Implied APY is unattractive, but YT price is fair.")
             elif implied_apy < underlying_apy:
-                st.success("🔸 Implied APY is attractive, but YT price is fair.")
+                st.info("🔸 Implied APY is attractive, but YT price is fair.")
         if percentage_apy < 1:
             if yt_now < fair_yt:
-                st.warning("🔸 Implied APY is nearly equal, but YT price is cheap.")
+                st.info("🔸 Implied APY is nearly equal, but YT price is cheap.")
             elif yt_now > fair_yt:
-                st.error("🔸 Implied APY is nearly equal, but YT price is expensive.")
+                st.info("🔸 Implied APY is nearly equal, but YT price is expensive.")
 
     st.divider()
 
@@ -53,7 +53,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     if qt > 0:
         profit = (underlying_apy * qt) * d / 365
         cost = qt * yt_now
-        roi_percent = (profit / cost) * 100 if cost > 0 else 0
+        roi_percent = ((profit / cost) - 1) * 100 if cost > 0 else 0
 
         st.markdown(f"### 💰 Estimated Gross Yield at Maturity: `${profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
