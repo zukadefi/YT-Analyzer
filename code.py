@@ -35,6 +35,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.info("⚖️ Fair price. No significant deviation.")
     else:
         st.info("😐 Mixed or weak signals.")
+        st.code(f"DEBUG: percentage = {percentage:.4f}, percentage_apy = {percentage_apy:.4f}")
         if percentage < 1:
             if implied_apy > underlying_apy:
                 st.info("🔸 Implied APY is unattractive, but YT price is fair.")
@@ -51,7 +52,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     # Cálculo de lucro
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
-        profit = (underlying_apy * qt) * d / 365
+        profit = ((underlying_apy * qt) * d / 365) - qt * yt_now
         cost = qt * yt_now
         roi_percent = ((profit / cost) - 1) * 100 if cost > 0 else 0
 
