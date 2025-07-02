@@ -44,9 +44,9 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
                 st.info(f"Implied APY is attractive (`{percentage:.2f}%` lower than Underlying APY), but YT price is fair.")
         if percentage_apy < 1:
             if yt_now < fair_yt:
-                st.info(f"Implied APY is nearly equal, but YT price is cheap (`{percentage_apy:.2f}%` lower than its fair price based on the maturity curve).")
+                st.info(f"Implied APY is nearly equal to Underlying APY, but YT price is cheap (`{percentage_apy:.2f}%` lower than its fair price based on the maturity curve).")
             elif yt_now > fair_yt:
-                st.info(f"Implied APY is nearly equal, but YT price is expensive (`{percentage:.2f}%` higher than its fair price based on the maturity curve).")
+                st.info(f"Implied APY is nearly equal to Underlying APY, but YT price is expensive (`{percentage:.2f}%` higher than its fair price based on the maturity curve).")
 
     st.divider()
 
