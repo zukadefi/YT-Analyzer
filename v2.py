@@ -31,7 +31,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     elif abs(implied_apy - underlying_apy) < 1e-5 and abs(yt_now - fair_yt) < 1e-5:
         st.info("⚖️ Fair price. No significant deviation.")
     else:
-        st.info("😐 Mixed or weak signals.")
+        st.warning("😐 Mixed or weak signals.")
         if (implied_apy < underlying_apy) and (yt_now > fair_yt) and percentage_apy > 1 and percentage > 1:
             st.info(f"Implied APY is attractive (`{percentage:.2f}%` lower than Underlying APY) but YT's price is expensive (`{percentage:.2f}%` higher than its fair price based on the maturity curve).")
         elif (implied_apy > underlying_apy) and (yt_now < fair_yt) and percentage_apy > 1 and percentage > 1:
@@ -39,14 +39,14 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         
         if percentage < 1:
             if implied_apy > underlying_apy:
-                st.info("🔸 Implied APY is unattractive, but YT price is fair.")
+                st.info(f"Implied APY is unattractive (`{percentage_apy:.2f}%` higher than Underlying APY), but YT price is fair.")
             elif implied_apy < underlying_apy:
-                st.info("🔸 Implied APY is attractive, but YT price is fair.")
+                st.info("f"Implied APY is attractive (`{percentage:.2f}%` lower than Underlying APY), but YT price is fair.")
         if percentage_apy < 1:
             if yt_now < fair_yt:
-                st.info("🔸 Implied APY is nearly equal, but YT price is cheap.")
+                st.info(f"Implied APY is nearly equal, but YT price is cheap (`{percentage_apy:.2f}%` lower than its fair price based on the maturity curve).")
             elif yt_now > fair_yt:
-                st.info("🔸 Implied APY is nearly equal, but YT price is expensive.")
+                st.info(f"Implied APY is nearly equal, but YT price is expensive (`{percentage:.2f}%` higher than its fair price based on the maturity curve).")
 
     st.divider()
 
@@ -59,8 +59,19 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
 
-    label = "Does this YT get points for airdrop?"
-    st.toggle(label, value=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible", width="content")
+    st.info("Calculate airdrop points (if the YT generates any)?")
+    st.toggle("Yes, calculate points", value=False)
+    if value:
+        points_per_token = st.number_input("How many points does 1 token generate per day?", format="%.6f")
+        user_points = points_per_token * qt * d
+        st.info(f"At maturity, you will have {user_points}")
+        total_points = st.number_input("How many points will exist (in total) by the end of the campaign?", format="%.6f")
+
+
+
+    st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
+
+        
 
 
 
