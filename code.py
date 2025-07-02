@@ -4,14 +4,12 @@ st.set_page_config(page_title="YT Analyzer", page_icon="📈")
 
 st.title("📊 Yield Token Analyzer")
 
-# Entradas
 implied_apy = st.number_input("Implied APY (e.g. 13.25% → 0.1325)", format="%.6f")
 underlying_apy = st.number_input("Underlying APY (e.g. 13.25% → 0.1325)", format="%.6f")
 pt_price = st.number_input("Principal Token Price (PT)", format="%.6f")
 d = st.number_input("Days Until Maturity", min_value=1, max_value=365, step=1)
 yt_now = st.number_input("Yield Token Current Price (YT)", format="%.6f")
 
-# Processa somente se todos os valores forem válidos (> 0)
 if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
     fair_yt = pt_price * (implied_apy * d / 365)
@@ -24,7 +22,6 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
     st.divider()
 
-    # Decisão principal
     if (implied_apy > underlying_apy) and (yt_now > fair_yt) and percentage_apy > 1 and percentage > 1:
         st.warning("🔻 Implied APY is unattractive and YT is expensive.")
         st.error("💡 SHORT YIELD → Consider buying PT")
@@ -35,7 +32,11 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.info("⚖️ Fair price. No significant deviation.")
     else:
         st.info("😐 Mixed or weak signals.")
-        st.code(f"DEBUG: percentage = {percentage:.4f}, percentage_apy = {percentage_apy:.4f}")
+        if (implied_apy < underlying_apy) and (yt_now > fair_yt) and percentage_apy > 1 and percentage > 1:
+            st.info(f"Implied APY is attractive (`{percentage:.2f}%` lower than Underlying APY) but YT's price is expensive (`{percentage:.2f}%` higher than its fair price based on the maturity curve).")
+        elif (implied_apy > underlying_apy) and (yt_now < fair_yt) and percentage_apy > 1 and percentage > 1:
+            st.info(f"Implied APY is unattractive (`{percentage_apy:.2f}%` higher than Underlying APY) but YT's price is cheap (`{percentage_apy:.2f}%` lower than its fair price based on the maturity curve).")
+        
         if percentage < 1:
             if implied_apy > underlying_apy:
                 st.info("🔸 Implied APY is unattractive, but YT price is fair.")
@@ -49,7 +50,6 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
     st.divider()
 
-    # Cálculo de lucro
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
         profit = ((underlying_apy * qt) * d / 365) - qt * yt_now
