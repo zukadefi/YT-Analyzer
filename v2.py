@@ -69,7 +69,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         total_points = st.number_input("How many points will exist (in total) by the end of the campaign?", format="%.6f")
         if total_points > 0:
             share = (user_points / total_points) * 100
-            st.info(f"At maturity, you will have {user_points} points. This is {share:.2f}% of all distributed points.")
+            st.info(f"At maturity, you will have {user_points} points. This is {share:.8f}% of all distributed points.")
 
 st.divider()
 st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
