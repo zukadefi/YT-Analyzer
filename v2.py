@@ -60,7 +60,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
 
     label = "Does this YT get points for airdrop?"
-    st.toggle(label, value=False, key=None, help=None, on_change=None, args=None, kwargs=None, *, disabled=False, label_visibility="visible", width="content")
+    st.toggle(label, value=False, key=None, help=None, on_change=None, args=None, kwargs=None, disabled=False, label_visibility="visible", width="content")
 
 
 
