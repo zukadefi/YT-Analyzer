@@ -59,17 +59,19 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
 
-    st.subheader("Calculate airdrop points? (if there are any)")
+    st.divider()
+    
+    st.subheader("Calculate airdrop points?")
     calc_points = st.toggle("Yes, calculate points", value=False)
     if calc_points:
         points_per_token = st.number_input("How many points does 1 token generate per day?", format="%.6f")
         user_points = points_per_token * qt * d
-        st.info(f"At maturity, you will have {user_points}")
         total_points = st.number_input("How many points will exist (in total) by the end of the campaign?", format="%.6f")
+        share = (user_points / total_points) * 100
+        st.info(f"At maturity, you will have {user_points} points. This is {share:.2f}% of all distributed points.")
 
-
-
-    st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
+        
+st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
 
         
 
