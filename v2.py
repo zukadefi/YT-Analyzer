@@ -59,9 +59,9 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
 
-    st.info("Calculate airdrop points (if the YT generates any)?")
-    st.toggle("Yes, calculate points", value=False)
-    if value:
+    st.subheader("Calculate airdrop points? (if there are any)")
+    calc_points = st.toggle("Yes, calculate points", value=False)
+    if calc_points:
         points_per_token = st.number_input("How many points does 1 token generate per day?", format="%.6f")
         user_points = points_per_token * qt * d
         st.info(f"At maturity, you will have {user_points}")
