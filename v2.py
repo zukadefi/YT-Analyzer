@@ -53,8 +53,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
         profit = (underlying_apy * qt) * d/365
-        cost = qt * yt_now
-        roi_percent = (profit - cost) / cost
+        roi_percent = (profit - qt) / qt
 
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
