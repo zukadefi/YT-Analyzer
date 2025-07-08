@@ -54,7 +54,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     if qt > 0:
         profit = (underlying_apy * qt) * d/365
         cost = qt * yt_now
-        roi_percent = (profit - cost)/cost if cost > 0 else 0
+        roi_percent = (profit - cost) if cost > 0 else 0
 
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
