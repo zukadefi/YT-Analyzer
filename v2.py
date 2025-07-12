@@ -54,22 +54,11 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     if qt > 0:
         profit = (underlying_apy * qt) * d/365
         cost = qt * yt_now
-        roi_percent = ((profit / cost) - 1) *100
 
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
+        roi_percent = ((profit / cost) - 1) * 100
         st.markdown(f"### 📈 Estimated ROI: `{roi_percent:.2f}%`")
 
-    st.divider()
-    
-    st.subheader("Calculate airdrop points?")
-    calc_points = st.toggle("Yes, calculate points", value=False)
-    if calc_points:
-        points_per_token = st.number_input("How many points does 1 token generate per day?", format="%.6f")
-        user_points = points_per_token * qt * d
-        total_points = st.number_input("How many points will exist (in total) by the end of the campaign?", format="%.6f")
-        if total_points > 0:
-            share = (user_points / total_points) * 100
-            st.info(f"At maturity, you will have {user_points} points. This is {share}% of all distributed points.")
 
 st.divider()
 st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
