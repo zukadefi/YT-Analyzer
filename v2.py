@@ -11,8 +11,7 @@ d = st.number_input("Days Until Maturity", min_value=1, max_value=365, step=1)
 yt_now = st.number_input("Yield Token Current Price (YT)", format="%.6f")
 
 if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
-
-    fair_yt = pt_price * (implied_apy * d / 365)
+    fair_yt = pt_price * ((implied_apy + 1) ** (d/365) - 1)
     percentage = abs((fair_yt / yt_now - 1) * 100)
     percentage_apy = abs((implied_apy / underlying_apy - 1) * 100)
 
