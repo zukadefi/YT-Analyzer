@@ -88,6 +88,10 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         x=alt.X("Dia", scale=alt.Scale(nice=True)),
         y=alt.Y("Preço Atual YT", scale=alt.Scale(nice=True))
     )
+
+    # linha vertical marcando o dia atual
+    vline = alt.Chart(pd.DataFrame({"Dia": [dias_since]})).mark_rule(color="green", strokeDash=[4,4], size=2).encode(
+        x="Dia"
     
     st.altair_chart(line + point, use_container_width=True)
 
