@@ -65,7 +65,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     df = pd.DataFrame({
         "Dia": dias,
         "Preço Justo": fair_curve,
-        "Preço Atual YT": [yt_now] * len(dias)
+        "Preço Atual YT": [yt_now]
     }).set_index("Dia")
     
     st.subheader("📉 Curva de Preço Justo do YT")
