@@ -1,4 +1,6 @@
 import streamlit as st
+import matplotlib.pyplot as plt
+import numpy as np
 
 st.set_page_config(page_title="YT Analyzer", page_icon="📈")
 
@@ -56,8 +58,41 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
         st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
 
+st.divider()
+
+    # -------------------------
+    # Gráfico do preço justo
+    # -------------------------
+    n = 365  # capitalização diária
+    dias = np.arange(0, d + 1)
+
+    # usa underlying como yield "fundamental"
+    i = (1 + underlying_apy)**(1/n) - 1
+    fair_curve = 1 - (1 + i)**(-dias)
+
+    fig, ax = plt.subplots(figsize=(8,5))
+    ax.plot(dias, fair_curve, label=f"Fair Price Curve (Underlying APY {underlying_apy*100:.2f}%)")
+    ax.axhline(yt_now, color="red", linestyle="--", label=f"YT Price Now = {yt_now:.4f}")
+    ax.set_xlabel("Dias até o vencimento")
+    ax.set_ylabel("Preço justo (proporção do notional)")
+    ax.set_title("Curva de preço justo do YT")
+    ax.legend()
+    ax.grid(True)
+
+    st.pyplot(fig)
+
+    st.divider()
+
+    qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
+    if qt > 0:
+        profit = (underlying_apy * qt) * d/365
+        cost = qt * yt_now
+
+        st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
+
 
 st.divider()
+
 st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
 
         
