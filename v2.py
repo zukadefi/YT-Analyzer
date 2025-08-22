@@ -1,5 +1,4 @@
 import streamlit as st
-import matplotlib.pyplot as plt
 import numpy as np
 
 st.set_page_config(page_title="YT Analyzer", page_icon="📈")
@@ -60,9 +59,9 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
 st.divider()
 
-    # -------------------------
-    # Gráfico do preço justo
-    # -------------------------
+# -------------------------
+# Gráfico do preço justo
+# -------------------------
 n = 365  # capitalização diária
 dias = np.arange(0, d + 1)
 
@@ -70,16 +69,14 @@ dias = np.arange(0, d + 1)
 i = (1 + underlying_apy)**(1/n) - 1
 fair_curve = 1 - (1 + i)**(-dias)
 
-fig, ax = plt.subplots(figsize=(8,5))
-ax.plot(dias, fair_curve, label=f"Fair Price Curve (Underlying APY {underlying_apy*100:.2f}%)")
-ax.axhline(yt_now, color="red", linestyle="--", label=f"YT Price Now = {yt_now:.4f}")
-ax.set_xlabel("Dias até o vencimento")
-ax.set_ylabel("Preço justo (proporção do notional)")
-ax.set_title("Curva de preço justo do YT")
-ax.legend()
-ax.grid(True)
+df = pd.DataFrame({
+    "Dia": dias,
+    "Preço Justo (Underlying APY)": fair_curve,
+    "Preço Atual YT": [yt_now] * len(dias)
+}).set_index("Dia")
 
-st.pyplot(fig)
+st.subheader("📉 Curva de Preço Justo do YT")
+st.line_chart(df)
 
 st.divider()
 
