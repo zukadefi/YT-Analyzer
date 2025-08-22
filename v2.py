@@ -65,13 +65,13 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     
     # DataFrame da curva
     df = pd.DataFrame({
-        "Dia": n,
+        "Dia": dias,
         "Preço Justo": fair_curve
     })
     
     # DataFrame só para o ponto do dia atual
     df_point = pd.DataFrame({
-        "Dia": [dias],
+        "Dia": [dias_since],
         "Preço Atual YT": [yt_now]
     })
     
