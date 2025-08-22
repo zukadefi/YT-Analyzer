@@ -78,13 +78,13 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     st.subheader("📉 Curva de Preço Justo do YT")
     
     # linha da curva com eixos “nice”
-    line = alt.Chart(df).mark_line(size=4).encode(
+    line = alt.Chart(df).mark_line(size=4, strokeDash=[4,4]).encode(
         x=alt.X("Dia", scale=alt.Scale(nice=True)),
         y=alt.Y("Preço Justo", scale=alt.Scale(nice=True))
     )
     
     # ponto no dia atual
-    point = alt.Chart(df_point).mark_point(color="red", size=150).encode(
+    point = alt.Chart(df_point).mark_point(color="red", size=69).encode(
         x=alt.X("Dia", scale=alt.Scale(nice=True)),
         y=alt.Y("Preço Atual YT", scale=alt.Scale(nice=True))
     )
