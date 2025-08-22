@@ -91,6 +91,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
 
     # linha vertical marcando o dia atual
     vline = alt.Chart(pd.DataFrame({"Dia": [d]})).mark_rule(color="green", strokeDash=[4,4], size=1).encode(
+        x="Dia"
     )
     
     st.altair_chart(line + point + vline, use_container_width=True)
