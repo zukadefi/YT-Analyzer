@@ -65,7 +65,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     
     # DataFrame da curva
     df = pd.DataFrame({
-        "Dia": dias,
+        "Dia": n,
         "Preço Justo": fair_curve
     })
     
