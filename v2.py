@@ -81,16 +81,6 @@ st.line_chart(df)
 
 st.divider()
 
-qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
-if qt > 0:
-    profit = (underlying_apy * qt) * d/365
-    cost = qt * yt_now
-
-    st.markdown(f"### 💰 At maturity, your investment will be worth: `{profit:.2f}`")
-
-
-st.divider()
-
 st.link_button("Follow @zuka_defi on X", "https://x.com/zuka_defi")
 
         
