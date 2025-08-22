@@ -78,7 +78,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     st.subheader("📉 Curva de Preço Justo do YT")
     
     # linha da curva com eixos “nice”
-    line = alt.Chart(df).mark_line(size=4, strokeDash=[10,5]).encode(
+    line = alt.Chart(df).mark_line(size=4, strokeDash=[15,5]).encode(
         x=alt.X("Dia", scale=alt.Scale(nice=True)),
         y=alt.Y("Preço Justo", scale=alt.Scale(nice=True))
     )
