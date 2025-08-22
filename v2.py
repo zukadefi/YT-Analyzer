@@ -63,15 +63,16 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     i = (1 + underlying_apy)**(1/n) - 1
     fair_curve = 1 - (1 + i)**(-dias)
     
-    # cria a série de preço atual só no dia atual
-    preco_atual_series = [np.nan] * len(dias)
-    if dias_since < len(dias):   # garante que não dá index error
-        preco_atual_series[dias_since] = yt_now
-    
+    # DataFrame da curva
     df = pd.DataFrame({
         "Dia": dias,
-        "Preço Justo": fair_curve,
-        "Preço Atual YT": preco_atual_series
+        "Preço Justo": fair_curve
+    })
+    
+    # DataFrame só para o ponto do dia atual
+    df_point = pd.DataFrame({
+        "Dia": [dias_since],
+        "Preço Atual YT": [yt_now]
     })
     
     st.subheader("📉 Curva de Preço Justo do YT")
@@ -82,8 +83,8 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
         y="Preço Justo"
     )
     
-    # ponto no dia atual -> dropna() remove os NaN
-    point = alt.Chart(df.dropna()).mark_point(color="red", size=100).encode(
+    # ponto no dia atual
+    point = alt.Chart(df_point).mark_point(color="red", size=100).encode(
         x="Dia",
         y="Preço Atual YT"
     )
