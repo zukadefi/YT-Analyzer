@@ -71,7 +71,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     
     # DataFrame só para o ponto do dia atual
     df_point = pd.DataFrame({
-        "Dia": [dias_since],
+        "Dia": [d],
         "Preço Atual YT": [yt_now]
     })
     
