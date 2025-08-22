@@ -92,8 +92,9 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     # linha vertical marcando o dia atual
     vline = alt.Chart(pd.DataFrame({"Dia": [dias_since]})).mark_rule(color="green", strokeDash=[4,4], size=2).encode(
         x="Dia"
+    )
     
-    st.altair_chart(line + point, use_container_width=True)
+    st.altair_chart(line + point + vline, use_container_width=True)
 
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
