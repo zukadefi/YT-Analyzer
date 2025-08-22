@@ -57,7 +57,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     # -------------------------
     n = 365  # capitalização diária
     dias_since = st.number_input("Days Since Launch", min_value=1, max_value=365, step=1)
-    dias = np.arange(0, d + dias_since + 1)
+    dias = np.arange(0,365)
     
     # usa underlying como yield "fundamental"
     i = (1 + underlying_apy)**(1/n) - 1
@@ -71,7 +71,7 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     
     # DataFrame só para o ponto do dia atual
     df_point = pd.DataFrame({
-        "Dia": [d],
+        "Dia": [dias],
         "Preço Atual YT": [yt_now]
     })
     
