@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import altair as alt
 
 st.set_page_config(page_title="YT Analyzer", page_icon="📈")
 
@@ -74,8 +75,18 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     }).set_index("Dia")
     
     st.subheader("📉 Curva de Preço Justo do YT")
-    st.line_chart(df)
-
+    # gráfico com Altair: linha + ponto
+    line = alt.Chart(df).mark_line().encode(
+        x="Dia",
+        y="Preço Justo"
+    )
+    
+    point = alt.Chart(df).mark_point(color="red", size=100).encode(
+        x="Dia",
+        y="Preço Atual YT"
+    )
+    
+    st.altair_chart(line + point, use_container_width=True)
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
         profit = (underlying_apy * qt) * d/365
