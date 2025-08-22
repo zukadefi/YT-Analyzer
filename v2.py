@@ -62,31 +62,34 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     # usa underlying como yield "fundamental"
     i = (1 + underlying_apy)**(1/n) - 1
     fair_curve = 1 - (1 + i)**(-dias)
-
+    
     # cria a série de preço atual só no dia atual
     preco_atual_series = [np.nan] * len(dias)
     if dias_since < len(dias):   # garante que não dá index error
         preco_atual_series[dias_since] = yt_now
-
+    
     df = pd.DataFrame({
         "Dia": dias,
         "Preço Justo": fair_curve,
         "Preço Atual YT": preco_atual_series
-    }).set_index("Dia")
+    })
     
     st.subheader("📉 Curva de Preço Justo do YT")
-    # gráfico com Altair: linha + ponto
+    
+    # linha da curva
     line = alt.Chart(df).mark_line().encode(
         x="Dia",
         y="Preço Justo"
     )
     
-    point = alt.Chart(df).mark_point(color="red", size=100).encode(
+    # ponto no dia atual -> dropna() remove os NaN
+    point = alt.Chart(df.dropna()).mark_point(color="red", size=100).encode(
         x="Dia",
         y="Preço Atual YT"
     )
     
     st.altair_chart(line + point, use_container_width=True)
+
     qt = st.number_input("How many YT tokens are you buying?", min_value=0.0, step=1.0, format="%.2f")
     if qt > 0:
         profit = (underlying_apy * qt) * d/365
