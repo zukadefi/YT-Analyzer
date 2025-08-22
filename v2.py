@@ -84,13 +84,13 @@ if all(x > 0 for x in [implied_apy, underlying_apy, pt_price, d, yt_now]):
     )
     
     # ponto no dia atual
-    point = alt.Chart(df_point).mark_point(color="red", size=100).encode(
+    point = alt.Chart(df_point).mark_point(color="red", size=150).encode(
         x=alt.X("Dia", scale=alt.Scale(nice=True)),
         y=alt.Y("Preço Atual YT", scale=alt.Scale(nice=True))
     )
 
     # linha vertical marcando o dia atual
-    vline = alt.Chart(pd.DataFrame({"Dia":[d]})).mark_rule(color="green", strokeDash=[4,4], size=1).encode(
+    vline = alt.Chart(pd.DataFrame({"Dia":[d]})).mark_rule(color="green", strokeDash=[4,4], size=1, tooltip=None).encode(
         x="Dia"
     )
     
